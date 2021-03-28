@@ -1,0 +1,28 @@
+<mxfile>
+    <diagram id="6zyvSGSASF2s3DV3WIPa" name="Page-1">
+        <mxGraphModel dx="1138" dy="724" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="lH3oTJKI2lMIT-_Q0Rw4-2" value="User Info" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Sans MS;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="lH3oTJKI2lMIT-_Q0Rw4-3" target="lH3oTJKI2lMIT-_Q0Rw4-2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lH3oTJKI2lMIT-_Q0Rw4-3" value="Password" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Sans MS;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="350" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="lH3oTJKI2lMIT-_Q0Rw4-4" target="lH3oTJKI2lMIT-_Q0Rw4-2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lH3oTJKI2lMIT-_Q0Rw4-4" value="User ID" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Sans MS;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Token" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Sans MS;sketch=1;" vertex="1" parent="1">
+                    <mxGeometry x="310" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
