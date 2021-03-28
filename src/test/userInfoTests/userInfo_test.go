@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewUser(t *testing.T) {
-	user, err := userInfo.NewUserInfo("a@a.com", "teste")
+	user, err := userInfo.NewUserInfo("email", "teste@a.com", "teste")
 
 	if err != nil {
 		t.Fatalf("error %v", err.Error())
