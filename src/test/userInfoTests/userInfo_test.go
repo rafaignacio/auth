@@ -6,16 +6,18 @@ import (
 	"rafaignacio.com/auth/src/pkg/userInfo"
 )
 
+type UserInfoTest struct{}
+
+func (u UserInfoTest) Write(userInfo userInfo.UserInfo) error {
+	return nil
+}
+
 func TestNewUser(t *testing.T) {
-	user, err := userInfo.NewUserInfo("email", "teste@a.com", "teste")
+	err := userInfo.NewUserInfo("email", "teste@a.com", "teste", UserInfoTest{})
 
 	if err != nil {
 		t.Fatalf("error %v", err.Error())
 	}
-
-	t.Logf("user password: %+v", user.Password)
-
-	t.Logf("%+v", user)
 }
 
 func TestPassComparison(t *testing.T) {

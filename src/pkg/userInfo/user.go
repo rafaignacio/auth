@@ -23,29 +23,40 @@ type UserInfo struct {
 	Password Password
 }
 
-func NewUserInfo(providerType ProviderType, providerValue, password string) (UserInfo, error) {
-	p := Password{}
-	p.WritePassword(password)
+type UserInfoWriter interface {
+	Write(info UserInfo) error
+}
+
+type UserInfoReader interface {
+	Read(id string) UserInfo
+}
+
+func NewUserInfo(providerType ProviderType, providerValue, password string, writer UserInfoWriter) error {
+
+	if writer == nil {
+		return errors.New("writer is not defined")
+	}
 
 	userID, err := NewUserID()
 
 	if err != nil {
-		return UserInfo{}, err
+		return err
 	}
 
 	provider, err := setUserProvider(providerType, providerValue)
 
 	if err != nil {
-		return UserInfo{}, err
+		return err
 	}
 
-	output := UserInfo{
+	info := UserInfo{
 		ID:       userID,
 		Provider: provider,
-		Password: p,
 	}
 
-	return output, nil
+	info.Password.WritePassword(password)
+
+	return writer.Write(info)
 }
 
 func setUserProvider(providerType ProviderType, value string) (UserProvider, error) {
@@ -56,7 +67,6 @@ func setUserProvider(providerType ProviderType, value string) (UserProvider, err
 		if err := validateEmail(value); err != nil {
 			return UserProvider{}, err
 		}
-		break
 	case SOCIAL_MEDIA:
 		break
 	default:
@@ -70,7 +80,7 @@ func setUserProvider(providerType ProviderType, value string) (UserProvider, err
 }
 
 func validateEmail(email string) error {
-	r, err := regexp.Compile("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)")
+	r, err := regexp.Compile(`(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)`)
 
 	if err != nil {
 		return err
