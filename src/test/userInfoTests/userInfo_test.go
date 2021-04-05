@@ -13,7 +13,7 @@ func (u UserInfoTest) Write(userInfo userInfo.UserInfo) error {
 }
 
 func TestNewUser(t *testing.T) {
-	err := userInfo.NewUserInfo("email", "teste@a.com", "teste", UserInfoTest{})
+	_, err := userInfo.NewUserInfo("email", "teste@a.com", "teste", UserInfoTest{})
 
 	if err != nil {
 		t.Fatalf("error %v", err.Error())
@@ -21,10 +21,10 @@ func TestNewUser(t *testing.T) {
 }
 
 func TestPassComparison(t *testing.T) {
-	p := userInfo.Password{}
-	p.WritePassword("teste")
+	u := userInfo.UserInfo{}
+	u.WritePassword("teste")
 
-	if err := p.ComparePassword("teste"); err != nil {
+	if err := u.ComparePassword("teste"); err != nil {
 		t.Fatalf("error comparing passwords: %v", err)
 	}
 }

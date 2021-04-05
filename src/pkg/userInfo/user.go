@@ -3,6 +3,8 @@ package userInfo
 import (
 	"errors"
 	"regexp"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type ProviderType string
@@ -13,14 +15,14 @@ const (
 )
 
 type UserProvider struct {
-	Type  ProviderType
-	Value string
+	Type  ProviderType `json:"type"`
+	Value string       `json:"value"`
 }
 
 type UserInfo struct {
-	ID       UserID
-	Provider UserProvider
-	Password Password
+	ID       UserID       `json:"id"`
+	Provider UserProvider `json:"provider"`
+	password Password
 }
 
 type UserInfoWriter interface {
@@ -31,22 +33,22 @@ type UserInfoReader interface {
 	Read(id string) UserInfo
 }
 
-func NewUserInfo(providerType ProviderType, providerValue, password string, writer UserInfoWriter) error {
+func NewUserInfo(providerType ProviderType, providerValue, password string, writer UserInfoWriter) (UserInfo, error) {
 
 	if writer == nil {
-		return errors.New("writer is not defined")
+		return UserInfo{}, errors.New("writer is not defined")
 	}
 
 	userID, err := NewUserID()
 
 	if err != nil {
-		return err
+		return UserInfo{}, err
 	}
 
 	provider, err := setUserProvider(providerType, providerValue)
 
 	if err != nil {
-		return err
+		return UserInfo{}, err
 	}
 
 	info := UserInfo{
@@ -54,9 +56,52 @@ func NewUserInfo(providerType ProviderType, providerValue, password string, writ
 		Provider: provider,
 	}
 
-	info.Password.WritePassword(password)
+	info.WritePassword(password)
 
-	return writer.Write(info)
+	err = writer.Write(info)
+
+	if err != nil {
+		return UserInfo{}, err
+	}
+
+	return info, nil
+}
+
+func CreateUserInfo(id string, provider UserProvider, password []byte) UserInfo {
+	output := UserInfo{}
+
+	output.WriteEncryptedPassword(password)
+	output.ID = createUserID(id)
+	output.Provider = provider
+
+	return output
+}
+
+func (u *UserInfo) WritePassword(password string) error {
+
+	c, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+
+	if err != nil {
+		return err
+	}
+
+	u.password.encryptedPass = c
+
+	return nil
+}
+
+func (u *UserInfo) WriteEncryptedPassword(enc []byte) error {
+	if enc != nil && len(enc) == 0 {
+		return errors.New("password cannot be empty")
+	}
+
+	u.password.encryptedPass = enc
+
+	return nil
+}
+
+func (u UserInfo) ComparePassword(password string) error {
+	return bcrypt.CompareHashAndPassword(u.password.encryptedPass, []byte(password))
 }
 
 func setUserProvider(providerType ProviderType, value string) (UserProvider, error) {

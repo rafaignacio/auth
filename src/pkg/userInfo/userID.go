@@ -10,6 +10,10 @@ func (u UserID) HasValue() bool {
 	return u.id != ""
 }
 
+func (u UserID) String() string {
+	return u.id
+}
+
 func NewUserID() (UserID, error) {
 	id, err := uuid.NewUUID()
 
@@ -22,4 +26,10 @@ func NewUserID() (UserID, error) {
 	}
 
 	return output, nil
+}
+
+func createUserID(id string) UserID {
+	return UserID{
+		id: id,
+	}
 }
