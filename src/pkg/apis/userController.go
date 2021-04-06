@@ -11,8 +11,7 @@ import (
 
 func AddNewUser(ctx *fiber.Ctx) error {
 	var (
-		u    models.NewUserModel
-		repo repos.UserRepository
+		u models.NewUserModel
 	)
 
 	err := ctx.BodyParser(&u)
@@ -29,6 +28,12 @@ func AddNewUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"errors": errs,
 		})
+	}
+
+	repo, err := repos.NewUserRepository()
+
+	if err != nil {
+		return err
 	}
 
 	r, err := userInfo.NewUserInfo(userInfo.ProviderType(u.ProviderType), u.ProviderValue, u.Password, repo)

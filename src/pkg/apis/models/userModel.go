@@ -4,10 +4,16 @@ import (
 	"rafaignacio.com/auth/src/pkg/userInfo"
 )
 
+type User struct {
+	ID       string
+	Password []byte
+	*NewUserModel
+}
+
 type NewUserModel struct {
-	Password      string `json:"password"`
+	Password      string `json:"password" gorm:"-"`
 	ProviderType  string `json:"provider_type"`
-	ProviderValue string `json:"provider_value"`
+	ProviderValue string `json:"provider_value" gorm:"index:,unique"`
 }
 
 func (u NewUserModel) Validate() (errs []string) {

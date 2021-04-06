@@ -12,7 +12,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Prefork: false,
 	})
-	config, err := utils.LoadConfig("./src/configs")
+	config, err := utils.LoadConfig("../configs")
 
 	if err != nil {
 		panic(err)

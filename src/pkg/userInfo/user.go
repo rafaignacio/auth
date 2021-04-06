@@ -77,6 +77,10 @@ func CreateUserInfo(id string, provider UserProvider, password []byte) UserInfo 
 	return output
 }
 
+func (u UserInfo) ReadPassword() []byte {
+	return u.password.encryptedPass
+}
+
 func (u *UserInfo) WritePassword(password string) error {
 
 	c, err := bcrypt.GenerateFromPassword([]byte(password), 14)
